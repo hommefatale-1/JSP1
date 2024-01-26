@@ -23,12 +23,23 @@
 	<%
 		out.println(session.getAttribute("userId"));
 	
-		String sql = "SELECT * FROM TBL_MEMBER1";
+		String sql = "SELECT * FROM TBL_MEMBER1";	
+		String word = request.getParameter("keyword");
+		String keyword = word != null ? word : "";
+		
+		if(keyword != null){
+		 sql += " WHERE USERNAME LIKE '%" +keyword + "%'"
+				+ " OR USERID LIKE '%" + keyword + "%'";
+		 }
 		ResultSet rs = stmt.executeQuery(sql);
 		
 	%>
 	
-	
+	<form name="user_list">
+	<div>
+		검색어:<input type="text" name="keyword" value="<%= keyword%>">
+		<input type="button" value="검색하기" onclick="search()">
+	</div>
 	<table border="1">
 		<tr>
 			<th>아이디</th>
@@ -69,6 +80,7 @@
 		}
 	%>	
 	</table>
+	</form>
 </body>
 </html>
 <script>
@@ -80,5 +92,9 @@
 	}
 	function userinit(id){
 		location.href="user_login_init.jsp?id=" + id;
+	}
+	var user = document.user_list;
+	function search() {
+		location.href="user_list.jsp?keyword=" + user.keyword.value;
 	}
 </script>

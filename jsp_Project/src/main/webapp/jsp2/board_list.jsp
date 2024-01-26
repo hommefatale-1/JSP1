@@ -50,10 +50,10 @@
 		ResultSet rs = stmt.executeQuery(sql);
 		
 	%>
-	<form name="board_list" action="board_view.jsp" method="post">
+	<form name="board_list" method="post">
 	<table>
 		<div>
-			검색어:<input type="text" name="keyword">
+			검색어:<input type="text" name="keyword" value="<%= keyword%>">
 			<input type="button" value="검색하기" onclick="search()">
 		</div>
 		<tr>
