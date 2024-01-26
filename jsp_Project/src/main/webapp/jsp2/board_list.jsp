@@ -39,12 +39,23 @@
 						+ "TO_CHAR(CDATETIME, 'YY/MM/DD HH24:MI') AS CDATETIME, " 
 						+ "TO_CHAR(UDATETIME, 'YY/MM/DD HH24:MI') AS UDATETIME " 
 						+ "FROM TBL_BOARD B "
-						+ "INNER JOIN TBL_MEMBER1 M ON B.USERID = M.USERID";
+						+ "INNER JOIN TBL_MEMBER1 M ON B.USERID = M.USERID"
+						;
+
+		String keyword = request.getParameter("keyword");
+		if(keyword != null){
+		 sql += " WHERE TITLE LIKE '%" + keyword + "%'";
+		}
+		sql += " ORDER BY CDATETIME DESC";
 		ResultSet rs = stmt.executeQuery(sql);
 		
 	%>
-	<form action="board_view.jsp" method="post">
+	<form name="board_list" action="board_view.jsp" method="post">
 	<table>
+		<div>
+			검색어:<input type="text" name="keyword">
+			<input type="button" value="검색하기" onclick="search()">
+		</div>
 		<tr>
 			<th style="width:10%;">번호</th>
 			<th style="width:40%;">제목</th>
@@ -70,12 +81,16 @@
 		}
 	%>	
 	</table>
+	<div><input type="submit" value="글쓰기" formaction="board_add.jsp" ></div>
 	</form>	
 </body>
 </html>
 <script>
-function boardview(BOARDNO){
-	location.href="board_view.jsp?BOARDNO=" + BOARDNO;
-	
-}
+	function boardview(BOARDNO){
+		location.href="board_view.jsp?BOARDNO=" + BOARDNO;
+	}
+	var board = document.board_list;
+	function search() {
+		location.href="board_list.jsp?keyword=" + board.keyword.value;
+	}
 </script>

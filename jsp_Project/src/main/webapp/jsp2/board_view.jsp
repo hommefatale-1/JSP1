@@ -32,10 +32,10 @@
 		String boardNo= request.getParameter("BOARDNO");
 		/* 조회수 증가 */
 		stmt.executeUpdate(
-				"UPDATE TBL_BOARD SET"
+			"UPDATE TBL_BOARD SET"
 				+ " HIT = HIT+1"
 				+ " WHERE BOARDNO = " + boardNo
-				);
+			);
 		String sql = "SELECT BOARDNO, TITLE, B.USERID, USERNAME, HIT,CONTENTS, " 
 			+ "TO_CHAR(CDATETIME, 'YY/MM/DD HH24:MI') AS CDATETIME, " 
 			+ "TO_CHAR(UDATETIME, 'YY/MM/DD HH24:MI') AS UDATETIME " 
@@ -67,14 +67,35 @@
 			<td><%= rs.getString("CONTENTS") %></td>
 		</tr>
 	</table>
-	<!--게시글 삭제  -->
-	<input type="button" onclick="board_delet('<%= rs.getString("boardNo") %>')" onclick="" value="삭제">
+		<%
+		String sessionId =	"";
+		String sessionStatus =  "";
+		String userId = rs.getString("USERId");
+		if(request.isRequestedSessionIdValid()){
+			sessionId = (String)session.getAttribute("userId");
+			sessionStatus = (String)session.getAttribute("status");
+		}
+		%>
+		<%
+		if(userId.equals(sessionId) || "A".equals(sessionStatus)){
+		%>
+		<input type="button" onclick="board_delet('<%= rs.getString("boardNo") %>')" value="삭제">
+		<input type="button" onclick="board_Update('<%= rs.getString("boardNo") %>')" value="수정">
+		<% 
+		}
+		%>
+	
 </body>
 </html>
 <script>
 	function board_delet(boardNo) {
 		if(confirm("삭제합니까?")){
 			location.href="board_list_delet.jsp?BOARDNO=" + boardNo;
+		}
+		
+	}function board_Update(boardNo) {
+		if(confirm("수정하겠습니까?")){
+			location.href="board_list_update.jsp?BOARDNO=" + boardNo;
 		}
 		
 	}

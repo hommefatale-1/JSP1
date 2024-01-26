@@ -43,6 +43,16 @@
 		<div> <span class="txt_input">패스워드 : </span><input type="text" name="pwd" > </div>
 		<div> <span class="txt_input">이름 : </span><input type="text" name="name" value="<%= name %>" > </div>
 		<div>
+			<span class="select_input">연락처 :</span> <select name="phone1">
+				<option value="010">010</option>
+				<option value="011">011</option>
+				<option value="016">016</option>
+				<option value="017">017</option>
+				<option value="019">019</option>
+			</select> - <input type="text" maxlength="4" size="4" name="phone2"> -
+			<input type="text" maxlength="4" size="4" name="phone3">
+		</div>
+		<div>
 			<span class="select_input">성 별 :</span>
 				<% if(rs.getString("GENDER").equals("남성")){ %> 
 				<label><input type="radio" name="gender" value="남성" checked>남성 </label>
@@ -51,6 +61,16 @@
 				<label><input type="radio" name="gender" value="남성">남성 </label>
 				<label><input type="radio" name="gender" value="여성" checked>여성 </label>
 			<% } %>
+		</div>
+		<div>
+			<span class="select_input">취 미 :</span> <label><input
+				type="checkbox" name="hobby" value="독서" checked>독서</label> <label><input
+				type="checkbox" name="hobby" value="운동"> 운동</label> <label><input
+				type="checkbox" name="hobby" value="영화"> 영화</label>
+		</div>
+		<div>
+			<textarea name="comment" cols="30" placeholder="가입인사를 입력해주세요.">
+            </textarea>
 		</div>
 		<div> <span class="txt_input"></span><input type="submit" value="회원정보 수정"> </div>
 	</form>

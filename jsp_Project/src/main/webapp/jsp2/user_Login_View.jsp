@@ -38,6 +38,13 @@
 		if(rs.getInt("CNT") >= 4){
 			out.println("비밀번호 5번 이상 실패! 관리자 문의 하셈");
 		}else{
+			session.setAttribute("userId", rs.getString("USERID"));
+			session.setAttribute("userName", rs.getString("USERNAME"));
+			session.setAttribute("status", rs.getString("STATUS"));
+			/* 관리자 로그인할 경우 */		
+			if(rs.getString("STATUS").equals("A")){
+				response.sendRedirect("user_list.jsp");
+			}
 			out.println("로그인 성공");
 		sql = "UPDATE TBL_MEMBER1 SET" 
 					+ " CNT = 0 "
