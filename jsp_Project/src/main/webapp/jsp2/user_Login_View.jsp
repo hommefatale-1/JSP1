@@ -51,7 +51,7 @@
 					+ "WHERE USERID = '" + id + "'";
 		stmt.executeQuery(sql);
 		%>
-	<form name="userInfo" action="user_Login_Update.jsp" method="post"> 
+	<form name="userInfo" action="user_Login_Update.jsp" method="get"> 
 			<div>
 				<!--id(PK)값을  user_Login_Updete.jsp 넘겨줌 회원수정을 위해서 -->
 				<label><input type="text" name="id" value="<%= id%>" hidden ></label>

@@ -48,21 +48,27 @@
 		</div>
 		<div>
 			<span class="select_input">취 미 :</span> <label><input
-				type="checkbox" name="hobby" value="독서" checked>독서</label> <label><input
+				type="checkbox" name="hobby" value="독서">독서</label> <label><input
 				type="checkbox" name="hobby" value="운동"> 운동</label> <label><input
 				type="checkbox" name="hobby" value="영화"> 영화</label>
 		</div>
 		<div>
-			<textarea name="comment" cols="100" placeholder="가입인사를 입력해주세요.">
+			<textarea name="comment" rows="20" cols="50" placeholder="가입인사를 입력해주세요.">
             </textarea>
 		</div>
-		<div><input id="bnt" type="submit" onclick="sign_Up()" value="가입하기"></div>	
+		<div><input type="submit" value="가입하기"></div>	
 </from>
 </body>
 </html>
 <script>
-	 var join = document.join;
+	var join = document.join;
+	
 	function idCheck() {
-		pop = window.open("user_idCheck.jsp?userId=" + join.userId.value, "join", "width=300, height=300");
-	}
+		var id = join.userId.value;
+		if(id == "" || id == undefined || id == "NULL"){
+			alert("아이디를 입력해 주세요.");
+			return;
+		}
+		pop = window.open("user_idCheck.jsp?userId="+join.userId.value,"중복확인","width=300,height=300");
+		}
 </script>

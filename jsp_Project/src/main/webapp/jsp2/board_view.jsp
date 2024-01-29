@@ -25,6 +25,7 @@
 </style>
 </head>
 <body>
+	<form name="boardView"> 
 	<%@ include file="dbconn.jsp"%>
 	<%
 	
@@ -42,6 +43,7 @@
 			+ "FROM TBL_BOARD B "
 			+ "INNER JOIN TBL_MEMBER1 M ON B.USERID = M.USERID WHERE BOARDNO = '"+ boardNo +"'";
 		ResultSet rs = stmt.executeQuery(sql);
+	
 		rs.next();
 	%>
 	
@@ -75,28 +77,79 @@
 			sessionId = (String)session.getAttribute("userId");
 			sessionStatus = (String)session.getAttribute("status");
 		}
+		if(userId.equals(sessionId) || "A".equals(sessionStatus) ){
 		%>
+		<input type="button" onclick="board_delet('<%= boardNo%>')" value="삭제">
+		<input type="button" onclick="board_Update('<%= boardNo%>')" value="수정">
 		<%
-		if(userId.equals(sessionId) || "A".equals(sessionStatus)){
+		}
+		%>	
+		<hr>
+		<%
+		 rs = stmt.executeQuery(
+			" SELECT * FROM TBL_COMMENT "
+			+ "WHERE BOARDNO ="+boardNo
+		);
+		while(rs.next()){
+			out.print("<div style='margin-bottom:5px;'>");
+			out.print("<span style='font-weight:bold;'>" + rs.getString("USERID") + " : </span>");
+			out.print("<span style='display : inline-block; width : 400px;'>" + "댓글: "+ rs.getString("CMT") + "</span>");
+			out.print("<span>" + rs.getString("UDATETIME") + "</span>");
+			out.print("<a href='#' onclick='cmtDelete(" + rs.getString("COMMENTNO") +"," + boardNo + ")'>✖ </a>");			
+			out.print("</div>");
 		%>
-		<input type="button" onclick="board_delet('<%= rs.getString("boardNo") %>')" value="삭제">
-		<input type="button" onclick="board_Update('<%= rs.getString("boardNo") %>')" value="수정">
-		<% 
+		<!-- 댓글 수정하기 -->
+		<a href='#' onclick='cmtModify('<%= rs.getString("CMT") %>')">🆖 </a>")
+		<%
+		out.print("</div>");
 		}
 		%>
+		<br>
+		<div><textarea name="comment" rows="5" cols="50"></textarea></div>
+		<div>
+		<!-- 수정 버튼 추가 및 이름 부여 -->
+			<input name="insertBtn" type="button" onclick="fnComment(<%= boardNo %>, '<%= sessionId %>')" value="댓글달기">
+			<input name="updateBtn" style="display:none;" type="button" onclick="fnComment(<%= boardNo %>, '<%= sessionId %>')" value="수정하기"> 
+		</div>
 	
+		
+	</form>
 </body>
 </html>
 <script>
 	function board_delet(boardNo) {
 		if(confirm("삭제합니까?")){
 			location.href="board_list_delet.jsp?BOARDNO=" + boardNo;
-		}
-		
-	}function board_Update(boardNo) {
+		}	
+	}
+	function board_Update(boardNo) {
 		if(confirm("수정하겠습니까?")){
 			location.href="board_list_update.jsp?BOARDNO=" + boardNo;
+		}	
+	}
+	function fncomment(boardNo, userId) {
+		var cmt = document.boardView.comment.value;
+		if(cmt == "" || cmt == undefined){
+			alert("댓글을 입력해 주세요!");
+			return;
+		}if(userId == "" || userId == undefined || userId== "null"){
+			alert("로그인 후 입력해주세요");
+			location.href="user_Login.jsp";
+			return;
 		}
-		
+		location.href="board_comment.jsp?boardNo="+boardNo+"&userId="+userId+"&comment="+cmt;
+	}
+	function cmtDelete(commentNo, boardNo) {
+		if(!confirm("삭제하겠습니까?")){
+			return;	
+		}
+		location.href="comment_delete.jsp?commentNo="+ commentNo +"&boardNo="+ boardNo;
+	}
+	function cmtModify(commentNo) {
+		var form = document.boardView;
+		form.comment.value = domment;
+		form.insertBtn.style.display="nene";
+		form.updateBtn.style.display="inline-block"
+
 	}
 </script>

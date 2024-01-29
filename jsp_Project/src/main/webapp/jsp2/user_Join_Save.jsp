@@ -30,7 +30,7 @@
 	<%
 	/*파라미터 정보 가져오기  */
 	request.setCharacterEncoding("UTF-8");
-	String id = request.getParameter("id");
+	String id = request.getParameter("userId");
 	String pwd = request.getParameter("pwd");
 	String pwd1 = request.getParameter("pwd1");
 	String name = request.getParameter("name");
@@ -60,9 +60,7 @@
 		+ "','" 
 		+ pwd + "','" 
 		+ name + "','" 
-		+ phone1 + "-" 
-		+ phone2 + "-" 
-		+ phone3 + "','" 
+		+ phone + "','"  
 		+ gender +  "','" 
 		+ (hobby.length>0 ? hobby[0] : "") + "','" 
 		+ (hobby.length>1 ? hobby[1] : "") + "','" 

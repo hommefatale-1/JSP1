@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>DB연결</title>
+<title>DB</title>
 </head>
 <body>
 <%

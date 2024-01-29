@@ -84,14 +84,14 @@
 </body>
 </html>
 <script>
-	function userUpdate(id){
-		location.href="user_Login_Update.jsp?id=" + id;
+	function userUpdate(USERID){
+		location.href="user_Login_Update.jsp?id=" + USERID;
 	}
-	function userDelete(id){
-		location.href="user_Login_Delete.jsp?id=" + id;
+	function userDelete(USERID){
+		location.href="user_Login_Delete.jsp?id=" + USERID;
 	}
-	function userinit(id){
-		location.href="user_login_init.jsp?id=" + id;
+	function userinit(USERID){
+		location.href="user_login_init.jsp?id=" + USERID;
 	}
 	var user = document.user_list;
 	function search() {

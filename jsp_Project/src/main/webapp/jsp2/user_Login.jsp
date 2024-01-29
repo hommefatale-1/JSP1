@@ -35,7 +35,7 @@
 		}
 	%>
 	<!--아이디 패스워드 입력받아서 버튼 클릭시 user_Login_View.jsp 이동 -->
-	<form action="user_Login_View.jsp" method="post">
+	<form action="user_Login_View.jsp" method="get">
 		<div>
 			<label>아이디 : <input type="text" name="id"></label>
 		</div>
@@ -46,6 +46,3 @@
 	</form>	
 </body>
 </html>
-<script>
-
-</script>

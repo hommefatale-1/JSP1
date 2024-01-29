@@ -35,12 +35,19 @@
 <body>
 	<%@ include file="dbconn.jsp"%>
 	<%
-		String sql = "SELECT BOARDNO, TITLE, B.USERID, USERNAME, HIT," 
-						+ "TO_CHAR(CDATETIME, 'YY/MM/DD HH24:MI') AS CDATETIME, " 
-						+ "TO_CHAR(UDATETIME, 'YY/MM/DD HH24:MI') AS UDATETIME " 
-						+ "FROM TBL_BOARD B "
-						+ "INNER JOIN TBL_MEMBER1 M ON B.USERID = M.USERID"
-						;
+	String sql = "SELECT B.BOARDNO, TITLE, B.USERID, USERNAME, HIT," 
+			+ "TO_CHAR(B.CDATETIME, 'YY/MM/DD HH24:MI') AS CDATETIME, " 
+			+ "TO_CHAR(B.UDATETIME, 'YY/MM/DD HH24:MI') AS UDATETIME, "
+			+ "C.CNT "
+			+ "FROM TBL_BOARD B "
+			+ "INNER JOIN TBL_MEMBER1 M ON B.USERID = M.USERID "
+			+ "LEFT JOIN ( "
+			+ "SELECT B.BOARDNO, COUNT(*) AS CNT "
+			+ "FROM TBL_BOARD B "
+			+ "INNER JOIN TBL_COMMENT C ON B.BOARDNO = C.BOARDNO "
+			+ "GROUP BY B.BOARDNO "
+			+ ") C ON B.BOARDNO = C.BOARDNO "
+		;
 
 		String keyword = request.getParameter("keyword");
 		if(keyword != null){
@@ -50,7 +57,7 @@
 		ResultSet rs = stmt.executeQuery(sql);
 		
 	%>
-	<form name="board_list" method="post">
+	<form name="board_list" method="get">
 	<table>
 		<div>
 			검색어:<input type="text" name="keyword" value="<%= keyword%>">
@@ -70,9 +77,14 @@
 	
 		<tr>
 			<td><%= rs.getString("BOARDNO") %></td>
-			<td><a href="#" onclick="boardview('<%= rs.getString("BOARDNO") %>')"><%= rs.getString("TITLE") %></a></td>
+			<td><a href="#" onclick="boardview('<%= rs.getString("BOARDNO") %>')">
+					<%= rs.getString("TITLE") %>
+					<% if(rs.getString("CNT") != null){
+						out.println("<span>(" + rs.getString("CNT") + ")</sapn>");
+					}%> 
+				</a>
+			</td>
 			<td><%= rs.getString("USERNAME") %></td>
-			<td><%= rs.getString("HIT") %></td>
 			<td><%= rs.getString("CDATETIME") %></td>
 			<td><%= rs.getString("UDATETIME") %></td>
 		</tr>
